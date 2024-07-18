@@ -1,5 +1,10 @@
-import Image from "next/image";
 import Dashboard from "./dashboard/page";
+
+export async function generateMetadata() {
+  return {
+    title: 'Home',
+  }
+}
 
 export default function Home() {
   return (

@@ -4,6 +4,9 @@ import React from "react";
 import TransactionForm from "@/components/TransactionForm";
 import { ChartData } from "chart.js";
 import PieChart from "@/components/PieChart";
+import LineChart from "@/components/LineChart";
+import TransactionTable from "@/components/TransactionTable";
+import { Metadata } from "next";
 
 const data: ChartData<"pie", number[], string> = {
   labels: ["Rent", "Groceries", "Utilities", "Entertainment", "Others"],
@@ -15,67 +18,85 @@ const data: ChartData<"pie", number[], string> = {
   ],
 };
 
-const Dashboard = () => {
+const dataLineChart: ChartData<"line", number[], string> = {
+  labels: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+  datasets: [
+    {
+      label: "Income",
+      data: [
+        3000, 3200, 4000, 4200, 4500, 4800, 5000, 5200, 5400, 5600, 5800, 6000,
+      ],
+      borderColor: "#36A2EB",
+      backgroundColor: "#36A2EB80",
+      fill: true,
+    },
+    {
+      label: "Expense",
+      data: [
+        2500, 2600, 2700, 2800, 2900, 3000, 3100, 3200, 3300, 3400, 3500, 3600,
+      ],
+      borderColor: "#FF6384",
+      backgroundColor: "#FF638480",
+      fill: true,
+    },
+  ],
+};
+
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+}
+
+async function getData() {
+  const res = await fetch('http://localhost:8080/transactions')
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+ 
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+ 
+  return res.json()
+}
+
+export default async function Dashboard() {
+  const dataTransactionTest = await getData();
+  console.log(dataTransactionTest);
+  
   return (
     <div className="w-full">
-      <div className="flex gap-4 mb-6">
+      <div className="flex justify-between items-center mb-6 pb-4 border-b border-b-gray-500">
         <MoneyCard
           category="Balance"
           iconSrc={MoneyIcon}
           money="1,000,000,000"
-          className="bg-green-600"
+          className="bg-green-600 h-40"
         />
+        <div className="h-[240px]">
+          <LineChart data={dataLineChart} />
+        </div>
 
         <div className="h-[240px]">
           <PieChart data={data} />
         </div>
       </div>
       <div className="flex gap-6">
-        <table className="min-w-[60%] bg-white">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold uppercase text-sm text-left">
-                Purpose
-              </th>
-              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold uppercase text-sm text-left">
-                Category
-              </th>
-              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold uppercase text-sm text-left">
-                Sum
-              </th>
-              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold uppercase text-sm text-left">
-                Date
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b">
-              <td className="py-2 px-4">Grocery Shopping</td>
-              <td className="py-2 px-4">Expense</td>
-              <td className="py-2 px-4">$150</td>
-              <td className="py-2 px-4">2024-06-01</td>
-            </tr>
-            <tr className="border-b">
-              <td className="py-2 px-4">Monthly Salary</td>
-              <td className="py-2 px-4">Income</td>
-              <td className="py-2 px-4">$5000</td>
-              <td className="py-2 px-4">2024-06-01</td>
-            </tr>
-            <tr className="border-b">
-              <td className="py-2 px-4">Electricity Bill</td>
-              <td className="py-2 px-4">Expense</td>
-              <td className="py-2 px-4">$100</td>
-              <td className="py-2 px-4">2024-06-05</td>
-            </tr>
-            <tr className="border-b">
-              <td className="py-2 px-4">Freelance Project</td>
-              <td className="py-2 px-4">Income</td>
-              <td className="py-2 px-4">$750</td>
-              <td className="py-2 px-4">2024-06-07</td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="min-w-[40%]">
+        <TransactionTable data={dataTransactionTest} className="w-2/3 p-4"/>
+        <div className="w-1/3 p-4">
           <TransactionForm />
         </div>
       </div>
@@ -83,4 +104,3 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;

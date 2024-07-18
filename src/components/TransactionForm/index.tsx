@@ -32,10 +32,39 @@ const TransactionForm: React.FC<TransactionFormProps> = () => {
   const [date, setDate] = useState<Date>();
   const [category, setCategory] = useState<string>(categories[0].id);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic
     console.log({ purpose, sum, date, category });
+    try {
+      const response = await fetch('http://localhost:8080/transactions/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          purpose,
+          categoryId: category,
+          userId: '64b9adbc-d4dd-45ed-bdc6-e1e2fb87e2d2',
+          sum,
+          date,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Transaction added:', data);
+      // Reset form fields
+      setPurpose('');
+      setCategory('');
+      setSum(0);
+      setDate(undefined);
+    } catch (error) {
+      console.error('Error adding transaction:', error);
+    }
   };
 
   return (
