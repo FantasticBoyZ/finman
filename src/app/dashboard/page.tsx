@@ -1,12 +1,13 @@
 import MoneyCard from "@/components/MoneyCard";
 import MoneyIcon from "./assets/money-svgrepo-com.svg";
 import React from "react";
-import TransactionForm from "@/components/TransactionForm";
+import TransactionForm from "@/containers/TransactionForm";
 import { ChartData } from "chart.js";
 import PieChart from "@/components/PieChart";
 import LineChart from "@/components/LineChart";
 import TransactionTable from "@/components/TransactionTable";
 import { Metadata } from "next";
+import { transactionService } from "@/services/transactionService";
 
 const data: ChartData<"pie", number[], string> = {
   labels: ["Rent", "Groceries", "Utilities", "Entertainment", "Others"],
@@ -60,22 +61,7 @@ export const metadata: Metadata = {
   title: 'Dashboard',
 }
 
-async function getData() {
-  const res = await fetch('http://localhost:8080/transactions')
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
- 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
-  }
- 
-  return res.json()
-}
-
 export default async function Dashboard() {
-  const dataTransactionTest = await getData();
-  console.log(dataTransactionTest);
   
   return (
     <div className="w-full">
@@ -95,7 +81,7 @@ export default async function Dashboard() {
         </div>
       </div>
       <div className="flex gap-6">
-        <TransactionTable data={dataTransactionTest} className="w-2/3 p-4"/>
+        <TransactionTable className="w-2/3 p-4"/>
         <div className="w-1/3 p-4">
           <TransactionForm />
         </div>

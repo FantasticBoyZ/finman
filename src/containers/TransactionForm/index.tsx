@@ -1,23 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import React from "react";
-import { Button } from "../ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import React, { useState } from "react";
+
+
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "../ui/calendar";
+
+import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
-import { addDays, format } from "date-fns";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { transactionService } from "@/services/transactionService";
+
 
 interface TransactionFormProps {}
 
@@ -28,35 +24,25 @@ const categories = [
 
 const TransactionForm: React.FC<TransactionFormProps> = () => {
   const [purpose, setPurpose] = useState("");
-  const [sum, setSum] = useState<number | "">("");
+  const [sum, setSum] = useState<number>(0);
   const [date, setDate] = useState<Date>();
   const [category, setCategory] = useState<string>(categories[0].id);
 
+  // TODO: use reactHookForm
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic
     console.log({ purpose, sum, date, category });
     try {
-      const response = await fetch('http://localhost:8080/transactions/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          purpose,
-          categoryId: category,
-          userId: '64b9adbc-d4dd-45ed-bdc6-e1e2fb87e2d2',
-          sum,
-          date,
-        }),
-      });
+      const response = await transactionService.addTransaction({
+        purpose,
+        categoryId: category,
+        userId: '64b9adbc-d4dd-45ed-bdc6-e1e2fb87e2d2',
+        sum,
+        date: date?.toLocaleDateString() || "",
+      })
+      console.log('add transaction',response);
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      console.log('Transaction added:', data);
       // Reset form fields
       setPurpose('');
       setCategory('');
