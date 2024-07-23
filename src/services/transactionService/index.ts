@@ -1,6 +1,6 @@
 import { Transaction, TransactionInsert } from "../type";
 
-const API_BASE_URL = process.env.API_BASE_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const transactionService = {
   async getTransactions(page: number, pageSize: number): Promise<{data: Transaction[], totalCount: number}> {
