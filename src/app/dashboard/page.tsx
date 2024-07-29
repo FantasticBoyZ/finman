@@ -1,7 +1,6 @@
 import LineChart from "@/components/LineChart";
 import MoneyCard from "@/components/MoneyCard";
 import PieChart from "@/components/PieChart";
-import TransactionTable from "@/components/TransactionTable";
 import TransactionForm from "@/containers/TransactionForm";
 import { ChartData } from "chart.js";
 import { Metadata } from "next";
@@ -9,7 +8,6 @@ import MoneyIcon from "./assets/money-svgrepo-com.svg";
 import { Suspense } from "react";
 import Loading from "./loading";
 import TransactionTableServer from "@/components/server/TransactionTableServer";
-import { useSearchParams } from "next/navigation";
 
 const data: ChartData<"pie", number[], string> = {
   labels: ["Rent", "Groceries", "Utilities", "Entertainment", "Others"],
@@ -66,16 +64,16 @@ export default async function Dashboard({
   params,
   searchParams,
 }: {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params?: { slug: string }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }) {
   const initialPage = 1;
   const pageSize = 10;
   let pageNumber = initialPage;
 
-  if (typeof searchParams.page === 'string') {
+  if (!!searchParams && typeof searchParams.page === 'string') {
     pageNumber = parseInt(searchParams.page, 10);
-  } else if (Array.isArray(searchParams.page)) {
+  } else if (!!searchParams && Array.isArray(searchParams.page)) {
     pageNumber = parseInt(searchParams.page[0], 10);
   }
 
