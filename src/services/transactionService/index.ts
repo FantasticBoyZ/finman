@@ -4,7 +4,11 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const transactionService = {
   async getTransactions(page: number, pageSize: number): Promise<{data: Transaction[], totalCount: number}> {
-    const response = await fetch(`${API_BASE_URL}/transactions?page=${page}&pageSize=${pageSize}`);
+    const response = await fetch(`${API_BASE_URL}/transactions?page=${page}&pageSize=${pageSize}`, {
+      next: {
+        revalidate: 0
+      }
+    });
     if (!response.ok) {
       throw new Error('Error fetching transactions');
     }
