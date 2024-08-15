@@ -22,10 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={twMerge(inter.className, 'w-2/3 mx-auto')}>
+      <body className={twMerge(inter.className, 'mx-auto flex flex-col')}>
         <>
         <Header />
+        <div className="grow">
+
         {children}
+        </div>
         <Footer />
         </>
         </body>
