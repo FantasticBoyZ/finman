@@ -25,9 +25,9 @@ const chartConfig = {
 
 const IncomeBarChar = () => {
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={chartConfig} className="h-56">
       <BarChart accessibilityLayer data={chartData}>
-        <CartesianGrid vertical={false} />
+        {/* <CartesianGrid vertical={false} /> */}
         <XAxis
           dataKey="month"
           tickLine={false}
@@ -39,7 +39,7 @@ const IncomeBarChar = () => {
           cursor={false}
           content={<ChartTooltipContent hideLabel />}
         />
-        <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8} />
+        <Bar dataKey="desktop" fill="var(--color-desktop)" radius={[100,100,0,0]} />
       </BarChart>
     </ChartContainer>
   );
