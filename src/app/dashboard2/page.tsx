@@ -41,7 +41,7 @@ const Dashboard2 = () => {
               previous month
             </p>
           </div>
-          <div className="bg-white w-fit max-w-fit min-h-56 flex-1 ">
+          <div className="bg-white w-auto min-w-fit max-w-[50%] min-h-56 flex-1 ">
             <IncomeBarChar />
           </div>
         </div>
