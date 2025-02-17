@@ -1,3 +1,5 @@
+"use client";
+import Counter, { Formatter } from "@/components/client/Counter";
 import DatePicker from "@/components/client/DatePicker";
 import IncomeBarChar from "@/components/client/IncomeBarChar";
 import Pagination from "@/components/client/Pagination";
@@ -11,7 +13,7 @@ const Dashboard2 = () => {
     <div className="font-Poppins px-5 py-3 flex flex-wrap gap-4 w-full h-full">
       <div className=" w-full h-10 flex justify-between rounded-lg ">
         <h1 className="font-bold text-3xl">Dashboard</h1>
-        <SearchInput/>
+        <SearchInput />
       </div>
       <Card className="bg-white w-full min-h-96 flex flex-wrap justify-between gap-4 p-6 shadow-lg">
         <div className="w-full flex flex-wrap justify-between">
@@ -25,9 +27,12 @@ const Dashboard2 = () => {
             <p className="text-base font-bold text-slate-600 mt-6">
               AVG. Monthly Income
             </p>
-            <p className="text-4xl font-bold mt-2">
-              $ {new Number(5000.01).toLocaleString()}
-            </p>
+            <Counter
+              direction="up"
+              format={Formatter.currency}
+              targetValue={5000.1234}
+              className="text-4xl font-bold mt-2"
+            />
             <p className="text-base font-semibold text-slate-600 mt-6 flex gap-1">
               <span className="text-green-500 flex">
                 <MoveUpRight className="size-6" />
@@ -53,9 +58,12 @@ const Dashboard2 = () => {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <p className="text-3xl font-semibold">
-                ${new Number(89500).toLocaleString()}
-              </p>
+              <Counter
+                direction="up"
+                format={Formatter.currency}
+                targetValue={89500}
+                className="text-3xl font-semibold"
+              />
               <p className="font-semibold text-slate-600">Total Income</p>
             </div>
           </div>
@@ -67,9 +75,12 @@ const Dashboard2 = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <p className="text-3xl font-semibold">
-                  ${new Number(85500).toLocaleString()}
-                </p>
+                <Counter
+                  direction="up"
+                  format={Formatter.currency}
+                  targetValue={89500}
+                  className="text-3xl font-semibold"
+                />
                 <p className="font-semibold text-slate-600">Total Expense</p>
               </div>
             </div>
