@@ -8,17 +8,17 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
+  { month: "January", asset: 1860 },
+  { month: "February", asset: 3050 },
+  { month: "March", asset: 2370 },
+  { month: "April", asset: 1530 },
+  { month: "May", asset: 2090 },
+  { month: "June", asset: 2140 },
 ];
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  asset: {
+    label: "Asset",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
@@ -39,7 +39,7 @@ const IncomeBarChar = () => {
           cursor={false}
           content={<ChartTooltipContent hideLabel />}
         />
-        <Bar dataKey="desktop" fill="var(--color-desktop)" radius={[100,100,0,0]} />
+        <Bar dataKey="asset" fill="var(--color-asset)" radius={[100,100,0,0]} />
       </BarChart>
     </ChartContainer>
   );
